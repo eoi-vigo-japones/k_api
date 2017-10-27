@@ -1,0 +1,9 @@
+api:
+  version: "0.1"
+
+jobs:
+  tipo: "memoria"
+  conexion: ""
+
+db:
+  conexion_cadena: "sqlite://"

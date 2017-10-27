@@ -1,0 +1,314 @@
+---
+swagger: "2.0"
+info:
+  description: "Api del servicio de Kanjis"
+  version: "0.0.1"
+  title: "KHK-Api"
+basePath: "/v1"
+tags:
+- name: "Hello"
+  description: "Información sobre el sistema"
+- name: "Hiragana"
+  description: "Estructuras de hiragana"
+- name: "Kanji"
+  description: "Estructuras de datos de kanji"
+- name: "Katakana"
+  description: "Estructuras de katakana"
+- name: "Busqueda"
+  description: "Búsqueda de kanjis en el sistema"
+- name: "Leccion"
+  description: "Lección de kanjis/hiragana/katakana"
+
+schemes:
+- "http"
+- "https"
+
+produces:
+- "application/json"
+
+consumes:
+- "application/json"
+
+paths:
+  /hello:
+    get:
+      tags:
+      - "Hello"
+      produces:
+      - "application/json"
+      parameters: []
+      x-swagger-router-controller: "Hello"
+      operationId: "hello_get"
+      responses:
+        200:
+          description: "Información del servidor de la API"
+          schema: 
+            $ref: "#/definitions/Hello"
+
+  /hiragana/{h}:
+    get:
+      tags:
+      - "Hiragana"
+      produces:
+      - "application/json"
+      x-swagger-router-controller: "Hiragana"
+      operationId: "hiragana_get"
+      parameters:
+      - name: h
+        type: "string"
+        in: path
+        description: "Caracter a estudiar/recoger"
+        required: true
+      responses:
+        200:
+          description: "Estructura hiragana"
+          schema:
+            $ref: "#/definitions/Hiragana"
+ 
+  /kanji/{k}:
+    get:
+      tags:
+      - "Kanji"     
+      produces:
+      - "application/json"
+      x-swagger-router-controller: "Kanji"
+      operationId: "kanji_get"
+      parameters:
+      - name: k
+        type: "string"
+        in: path
+        description: "Símbolo del kanji a estudiar/recoger"
+        required: true
+      responses:
+        200:
+          description: "Estructura kanji"
+          schema:
+            $ref: "#/definitions/Kanji"
+  /kanji/{clave}/clave:
+    get:
+      tags:
+      - "Kanji"
+      produces:
+      - "application/json"
+      x-swagger-router-controller: "Kanji"
+      operationId: "kanji_get_clave"
+      parameters:
+      - name: clave
+        type: "string"
+        in: path
+        description: "Clave del kanji a estudiar/recoger"
+        required: true
+      responses:
+        200:
+          description: "Estructura kanji"
+          schema:
+            $ref: "#/definitions/Kanji"
+
+  /busqueda/{termino}/historia:
+    get:
+      tags:
+      - "Busqueda"
+      produces:
+      - "application/json"
+      x-swagger-router-controller: "Busqueda"
+      operationId: "buscar_por_historia"
+      parameters:
+      - name: termino
+        type: "string"
+        in: path
+        required: true
+        description: "Término a buscar dentro de la historia de los kanjis"
+      responses:
+        200:
+          description: "Resultados de la búsqueda"
+          schema:
+            $ref: "#/definitions/ResultadoBusqueda"
+
+  /busqueda/{componente}/componente:
+    get:
+      tags:
+      - "Busqueda"
+      produces:
+      - "application/json"
+      x-swagger-router-controller: "Busqueda"
+      operationId: "buscar_por_componente"
+      parameters:
+      - name: componente
+        type: "string"
+        in: path
+        required: true
+        description: "Componente de los kanjis a buscar"
+      responses:
+        200:
+          description: "Resultados de la búsqueda"
+          schema:
+            $ref: "#/definitions/ResultadoBusqueda"
+
+  /lecciones:
+    get:
+      tags:
+      - "Leccion"
+      produces:
+      - "application/json"
+      x-swagger-router-controller: "Leccion"
+      operationId: "leccion_get_all"
+      parameters: []
+      responses:
+        200:
+          description: "Listado de lecciones disponibles"
+          schema:
+            $ref: "#/definitions/Lecciones"
+
+  /lecciones/{nombre}:
+    get:
+      tags:
+      - "Leccion"
+      produces:
+      - "application/json"
+      x-swagger-router-controller: "Leccion"
+      operationId: "leccion_get"    
+      parameters: 
+      - name: nombre 
+        type: "string"
+        in: path
+        required: true
+        description: "Nombre de la lección a solictar"
+      responses: 
+        200:
+          description: "Lección solicitada"
+          schema:
+            $ref: "#/definitions/Leccion"
+      
+
+definitions:
+  Hello:
+    type: "object"
+    properties:
+      version:
+        type: "string"
+        description: "Versión de la api servida"
+        example: "0.0.1"
+  Hiragana:
+    type: "object"
+    properties:
+      literal:
+        type: "string"
+        description: "Caracter hiragana"
+        example: "あ"
+      romaji:
+        type: "string"
+        description: "Transliteración de caracter"
+        example: "a"
+      historia:
+        type: "string"
+        description: "Historia mnemotécnica del caracter"
+
+  Kanji:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "Símbolo-identificador del kanji"
+        example: "百"
+      clave:
+        type: "string"
+        description: "Clave del kanji"
+        example: "cien"
+      componentes:
+        type: "array"
+        items:
+          $ref: "#/definitions/KanjiComponente"
+      solo_componente:
+        type: "boolean"
+        description: "Se trata de un componente"
+        example: false
+      como_componente:  
+        type: "array"
+        items:
+          $ref: "#/definitions/KanjiComoComponente"
+      historia:
+        type: "string"
+        description: "Historia del componente"
+        example: "Año blanco "
+
+  KanjiComponente:
+    type: "string"
+    description: "componente (clave)"
+    example: "blanco"
+
+  KanjiComoComponente:
+    type: "string"
+    description: "compuesto,clave (como componente)"
+    example: ""
+
+  ResultadoBusqueda:
+    type: "object"
+    description: "Resultados de las búsquedas"
+    properties:
+      encontrados:
+        type: integer
+        description: "Número de coincidencias"
+        example: 1
+      compuestos:
+        type: array
+        description: "Lista de coincidencias (por id)"
+        items:
+          type: "string"
+          description: "Id del kanji"
+          example: "二"
+ 
+  Lecciones:
+    type: "array"     
+    description: "Listado de lecciones"
+    items:
+      $ref: "#/definitions/LeccionesItem"
+  LeccionesItem:
+    type: "object"
+    description: "Item del lista de lecciones"
+    properties:
+      nombre:
+        type: "string"
+        description: "Nombre de la lección (identificador)"
+        example: "Números I"
+      orden:
+        type: "integer"
+        description: "Orden de mostrado"
+        example: 2
+  Leccion:
+    type: "object"
+    description: "Estructura de una lección solicitada"
+    properties:
+      alias:
+        type: "string"
+        description: "Alias de la lección (moniker)"
+        example: "numeros_1"
+      nombre:
+        type: "string"
+        description: "Nombre completo de la lección"
+        example: "Números I"
+      descripcion:
+        type: "string"
+        description: "Descripción somera del contenido de la lección"
+        example: "Lección dedicada a los números del 1 al 10"
+      miembros:
+        type: "array"
+        description: "Conjunto de miembros de la lección"
+        items:
+          $ref: "#/definitions/LeccionMiembro"
+
+  LeccionMiembro:
+    type: "object"
+    description: "Miembro (caracter) de una lección"
+    properties:
+      id:
+        type: "string"
+        description: "id del caracter"
+        example: "一"
+      solo_componente:
+        type: "boolean"
+        description: "Solo es un componente?"
+        example: false
+       
+    
+    
+

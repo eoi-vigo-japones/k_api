@@ -1,0 +1,7 @@
+fixtures:
+  - model: Hiragana
+    data:
+      kana: "あ"
+      clave: "A"
+      componentes: "espada,prohibido"
+      historia: "asdfasfd"
