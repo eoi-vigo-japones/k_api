@@ -20,30 +20,26 @@ module.exports = function(sequelize, DataTypes){
             type: DataTypes.TEXT,
         },
     }, 
+
     {
-
-        classMethods: {
-
-            associate: function(models){
-
-                KanjiHistoria.belongsTo(models.kanji, {
-
-                    as: "kanji",
-
-                    foreignKey: "kanji_id"
-
-                });
-                
-            }
-
-        },
-    
-        createdAt: false,
-
-        updatedAt: false,
-
-        tableName: "historia"
+      createdAt: false,
+      updatedAt: false,
+      tableName: "historia",
+      charset: "utf8",
     });
+
+
+    KanjiHistoria.associate = function(models){
+
+       KanjiHistoria.belongsTo(models.kanji, {
+
+           as: "kanji",
+
+           foreignKey: "kanji_id"
+
+       });
+                
+    };
 
     return KanjiHistoria;
 };
