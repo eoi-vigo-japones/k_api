@@ -126,4 +126,25 @@ describe("Test - Rest - Hiragana", function(){
 
   })
 
+  it("Búsqueda - por historia", function(hecho){
+
+    Cliente.apis["Busqueda"]["buscar_por_historia"]({
+
+      termino: "perro"
+    })
+
+      .then(({body}) => {
+
+        console.log(body)
+
+        hecho();
+      })
+
+      .catch((err) => {
+        hecho(err);
+      })
+
+  })
+
+
 })
