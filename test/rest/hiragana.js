@@ -146,5 +146,28 @@ describe("Test - Rest - Hiragana", function(){
 
   })
 
+  it("Búsqueda - por componentes", function(hecho){
+
+    Cliente.apis["Busqueda"]["buscar_por_componente"]({
+
+      componente: "jauría"
+
+    })
+      .then(({body}) => {
+
+        console.log(body)
+
+        hecho();
+
+      })
+
+      .catch((err) => {
+
+        hecho(err);
+
+      })
+
+  })
+  
 
 })
