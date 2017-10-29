@@ -168,6 +168,25 @@ describe("Test - Rest - Hiragana", function(){
       })
 
   })
-  
+ 
+  it("Renshuu - aleatoria", function(hecho){
+
+    this.timeout(0);
+
+    Cliente.apis["Renshuu"]["renshuu_aleatorio"]({
+
+      lecciones: "Números I,Cuerpo Humano I",
+      //lecciones: "pro",
+      n_elementos: 15
+    })
+
+      .then(({body}) => {
+
+        console.log(body)
+
+        hecho();
+
+      })
+  }) 
 
 })
