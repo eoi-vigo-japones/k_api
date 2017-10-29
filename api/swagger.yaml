@@ -18,6 +18,8 @@ tags:
   description: "Búsqueda de kanjis en el sistema"
 - name: "Leccion"
   description: "Lección de kanjis/hiragana/katakana"
+- name: "Renshuu"
+  description: "Práctica de japonés"
 
 schemes:
 - "http"
@@ -178,7 +180,31 @@ paths:
           description: "Lección solicitada"
           schema:
             $ref: "#/definitions/Leccion"
-      
+ 
+  /renshuu/listado/{lecciones}/aleatorio:
+    get:
+      tags:
+      - "Renshuu"
+      produces:
+      - "application/json"
+      x-swagger-router-controller: "Renshuu"
+      operationId: "renshuu_aleatorio"     
+      parameters:
+      - name: lecciones 
+        type: "string"
+        in: path
+        required: true
+        description: "Lecciones a incluír (separadas por comas)"
+      - name: n_elementos
+        type: "integer"
+        in: query
+        required: false
+        description: "Número de elementos a incluir (máximo)"
+      responses:
+        200:
+          description: "Conjunto de kanjis de práctica"
+          schema:
+            $ref: "#/definitions/Renshuu"
 
 definitions:
   Hello:
@@ -308,7 +334,12 @@ definitions:
         type: "boolean"
         description: "Solo es un componente?"
         example: false
-       
+ 
+  Renshuu:
+    type: "array"
+    description: "Conjunto de kanjis de práctica"
+    items:
+      $ref: "#/definitions/Kanji"
     
     
 
